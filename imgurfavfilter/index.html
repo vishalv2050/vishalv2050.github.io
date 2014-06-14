@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+</head>
+<body>
+<div ng-controller="FirstController">
+
+    <div>
+        <input type='text' width="200" max='9999' ng-model='userName'/>
+        <button ng-click="getFavourites(userName)">GET</button>
+    </div>
+    
+    <input type='text' width="200" max='9999' ng-model='search_string'/>
+    
+    <div class="span4" ng-repeat="item in todos.data | filter:search_string">
+    <img src="{{item.curatedLink}}" height="50" width="50">
+        <label color="red">
+            {{item.title}}
+        </label>
+        <hr> </hr>
+    </div>
+
+</div>
+
+
+<script src="FirstController.js">
+
+
+</script>
+</body>
+</html>
