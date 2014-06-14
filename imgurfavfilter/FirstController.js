@@ -26,26 +26,32 @@ app.controller('FirstController', function($scope, $http) {
             .value();
     };
 
+    $scope.entries=[];
+    
     $scope.getFavourites = function (userName) {
 
         $http.get("https://api.imgur.com/3/account/" + userName + "/gallery_favorites", {"headers" : {"Authorization" : "Client-ID ac07eda7d831a8a"}}).then(function(res){
             $scope.todos = res.data;
+            response = res.data.data;
+            $scope.imageUrls = []
+            var temp = []
             for (i = 0; i < $scope.todos.data.length; i++) {
                 var isAlbum = $scope.todos.data[i].is_album;
+                var curatedLink = "";
                 if (isAlbum == false || isAlbum == undefined) {
-                    $scope.todos.data[i].curatedLink = $scope.todos.data[i].link;
-                    $scope.imageUrls.push($scope.todos.data[i].link)
+                    curatedLink = response[i].link;
                 } else {
-                    $scope.todos.data[i].curatedLink = "http://i.imgur.com/" + $scope.todos.data[i].cover + ".jpg";
-                    $scope.imageUrls.push("http://i.imgur.com/" + $scope.todos.data[i].cover + ".jpg")
+                    curatedLink = "http://i.imgur.com/" + response[i].cover + ".jpg";
                 }
+                
+                temp[i] = {"curatedLink":curatedLink, "title":response[i].title}
             }
+            
+            $scope.entries = temp;
         });
 
 
     }
-
-    $scope.entries = $scope.todos.data;
 
     $http.get('sampleResponse.json').then(function(res){
         $scope.todos = res.data;
@@ -59,6 +65,8 @@ app.controller('FirstController', function($scope, $http) {
                 $scope.imageUrls.push("http://i.imgur.com/" + $scope.todos.data[i].cover + ".jpg")
             }
         }
+
+        $scope.entries = $scope.todos.data;
     });
 
 

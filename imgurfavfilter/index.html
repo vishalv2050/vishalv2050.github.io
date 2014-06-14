@@ -1,6 +1,7 @@
 <!doctype html>
 <html ng-app="myApp">
 <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
 </head>
 <body>
@@ -13,14 +14,17 @@
     
     <input type='text' width="200" max='9999' ng-model='search_string'/>
     
-    <div class="span4" ng-repeat="item in todos.data | filter:search_string">
-    <img src="{{item.curatedLink}}" height="50" width="50">
-        <label color="red">
-            {{item.title}}
-        </label>
-        <hr> </hr>
-    </div>
-
+    <table >
+    <tbody ng:repeat="item in entries | filter:search_string">
+        <tr height="100">
+            <td style="padding:10px 10px 10px 10px;"><img src="{{item.curatedLink}}" height="80" width="80"></td>
+            <td>{{item.title}}</td>
+        
+        </tr>
+        
+    </tbody>
+</table>
+    
 </div>
 
 
