@@ -50,9 +50,6 @@ app.controller('FirstController', function($scope, $http) {
             $scope.entries = $scope.entries.concat(temp);
             
             if (response.length > 0) {
-                console.log("Current page " + page)
-                            console.log("Get more " + response.length)
-
                 $scope.getFavourites(userName, page + 1);
             }
         });
