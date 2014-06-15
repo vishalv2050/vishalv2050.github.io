@@ -28,9 +28,9 @@ app.controller('FirstController', function($scope, $http) {
 
     $scope.entries=[];
     
-    $scope.getFavourites = function (userName) {
+    $scope.getFavourites = function (userName, page) {
 
-        $http.get("https://api.imgur.com/3/account/" + userName + "/gallery_favorites", {"headers" : {"Authorization" : "Client-ID ac07eda7d831a8a"}}).then(function(res){
+        $http.get("https://api.imgur.com/3/account/" + userName + "/gallery_favorites?page=" + page, {"headers" : {"Authorization" : "Client-ID ac07eda7d831a8a"}}).then(function(res){
             $scope.todos = res.data;
             response = res.data.data;
             $scope.imageUrls = []
@@ -44,10 +44,17 @@ app.controller('FirstController', function($scope, $http) {
                     curatedLink = "http://i.imgur.com/" + response[i].cover + ".jpg";
                 }
                 
-                temp[i] = {"curatedLink":curatedLink, "title":response[i].title}
+                temp[i] = {"curatedLink":curatedLink, "title":response[i].title, "link":"http://www.imgur.com/gallery/" + response[i].id}
             }
             
-            $scope.entries = temp;
+            $scope.entries = $scope.entries.concat(temp);
+            
+            if (response.length > 0) {
+                console.log("Current page " + page)
+                            console.log("Get more " + response.length)
+
+                $scope.getFavourites(userName, page + 1);
+            }
         });
 
 
@@ -66,7 +73,7 @@ app.controller('FirstController', function($scope, $http) {
             }
         }
 
-        $scope.entries = $scope.todos.data;
+//        $scope.entries = $scope.todos.data;
     });
 
 
